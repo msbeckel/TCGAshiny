@@ -3,7 +3,7 @@ library(shinydashboard)
 library(TCGAplot)
 library(tidyverse)
 
-setwd("~/Maxi/s100_exp_correlation")
+setwd("~/GitHub/TCGAshiny")
 
 # Load module definitions
 source("gene_expression_tab.R")
@@ -12,6 +12,8 @@ source("pan_cancer_tab.R")
 source("geneset_cor_tab.R")
 source("by_cancer_tab.R")
 source("deg_tab.R")
+source("networks_tab.R")
+source("medical_tab.R")
 
 # Define cancer types
 cancertypes <- c("ACC",  "BLCA", "BRCA", "CESC", "CHOL", "COAD", "DLBC", 
@@ -30,7 +32,9 @@ ui <- dashboardPage(
       menuItem("Feature Correlation", icon = icon("up-right-and-down-left-from-center"), tabName = "pan_cancer"),
       menuItem("Geneset Correlation", icon = icon("th"), tabName = "geneset_cor"),
       menuItem("Cancer type", icon = icon("disease"), tabName = "by_cancer"),
-      menuItem("Differential expressed genes", icon = icon("up-down"), tabName = "deg")
+      menuItem("Differential expressed genes", icon = icon("up-down"), tabName = "deg"),
+      menuItem("Medical Relevance", icon = icon("hospital"), tabName = "medical"),
+      menuItem("Networks", icon = icon("network-wired"), tabName = "networks")
     )
   ),
   dashboardBody(
@@ -40,7 +44,9 @@ ui <- dashboardPage(
       tabItem(tabName = "pan_cancer", pan_cancer_ui("pan_cancer")),
       tabItem(tabName = "geneset_cor", geneset_cor_ui("geneset_cor")),
       tabItem(tabName = "by_cancer", by_cancer_ui("by_cancer")),
-      tabItem(tabName = "deg", deg_ui("deg"))
+      tabItem(tabName = "deg", deg_ui("deg")),
+      tabItem(tabName = "medical", medical_ui("medical")),
+      tabItem(tabName = "networks", networks_ui("networks"))
     )
   )
 )
@@ -53,6 +59,8 @@ server <- function(input, output, session) {
   geneset_cor_server("geneset_cor")
   by_cancer_server("by_cancer")
   deg_server("deg")
+  medical_server("medical")
+  networks_server("networks")
 }
 
 # Run the application
